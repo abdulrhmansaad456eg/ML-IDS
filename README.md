@@ -1,4 +1,7 @@
 # ML-IDS
+
+[![Tests](https://github.com/abdulrhmansaad456eg/ML-IDS/actions/workflows/tests.yml/badge.svg)](https://github.com/abdulrhmansaad456eg/ML-IDS/actions/workflows/tests.yml)
+
 ### Real-Time Behavioral Intrusion Detection System Powered by Machine Learning
 
 ML-IDS is a real-time network intrusion detection system that uses a **Random Forest classifier** to detect:
