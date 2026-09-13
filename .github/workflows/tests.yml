@@ -1,0 +1,28 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pandas numpy scikit-learn joblib
+      - name: Train model and verify predictions
+        run: |
+          cd IDS
+          python train_model.py
+          python - <<'EOF'
+          import joblib
+          model = joblib.load("ids_model.pkl")
+          scaler = joblib.load("scaler.pkl")
+          normal = model.predict(scaler.transform([[1000, 80, 6]]))[0]
+          attack = model.predict(scaler.transform([[40, 45000, 6]]))[0]
+          assert normal == 0, f"expected benign traffic classified 0, got {normal}"
+          assert attack == 1, f"expected port scan classified 1, got {attack}"
+          print("Model predictions verified")
+          EOF
